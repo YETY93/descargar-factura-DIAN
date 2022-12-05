@@ -18,7 +18,7 @@ def read_book_path():
 
         COLUM_ID_DOC: str = "AT"
         COLUM_ESTATE: str = "BG"
-        consecutive: int = 2
+        consecutive: int = 310
         print(sheet_active.cell(row=1, column=2).value)
         # start instance of navigator
         navigator = webdriver.Chrome(executable_path=const_project.PATH_DRIVER)
@@ -33,12 +33,15 @@ def read_book_path():
             cell_activate_id_doc: str = COLUM_ID_DOC + str(consecutive) # Cell for id documento electronic
             cell_id_doc_value = sheet_active[cell_activate_id_doc].value
             link_download = const_project.PATH_DOWNLOAD_ZIP
+
             navigator.execute_script('''window.open(" ''' + link_download + cell_id_doc_value + ''' ","_blank");''')
             time.sleep(5)
 
             cell_download: str = COLUM_ESTATE + str(consecutive) # Cell for confirmed download
             sheet_active[cell_download].value = "DESCARGADO"
             consecutive += 1
+
+            wb.save(path_book) # Save the changes
     except Exception as e:
         print("posible en : read book")
         print(e)
